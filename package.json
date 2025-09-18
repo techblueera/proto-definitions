@@ -1,0 +1,7 @@
+{
+  "name": "@myorg/protos",
+  "version": "1.0.0",
+  "main": "proto/index.js",
+  "files": ["proto"],
+  "type": "module"
+}
