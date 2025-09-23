@@ -4,6 +4,14 @@ package products;
 
 import "google/protobuf/timestamp.proto";
 
+
+// Products service
+service ProductsService {
+  rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
+  rpc GetRecentProducts(GetRecentProductsRequest) returns (GetProductsResponse);
+  rpc GetByIdList(GetByIdListRequest) returns (GetByIdListResponse);
+}
+
 // Product type enum
 enum ProductType {
   PRODUCT = 0;
@@ -108,17 +116,8 @@ message GetRecentProductsRequest {
 message GetByIdListRequest {
   repeated string product_id_list = 1;
 }
-
 // Response for ID list request
 message GetByIdListResponse {
   repeated Product products = 1;
 }
 
-
-
-// Products service
-service ProductsService {
-  rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
-  rpc GetRecentProducts(GetRecentProductsRequest) returns (GetProductsResponse);
-  rpc GetByIdList(GetByIdListRequest) returns (GetByIdListResponse);
-}
