@@ -103,8 +103,22 @@ message GetRecentProductsRequest {
   bool is_published = 4;
 }
 
+
+// Request to get products by ID list
+message GetByIdListRequest {
+  repeated string product_id_list = 1;
+}
+
+// Response for ID list request
+message GetByIdListResponse {
+  repeated Product products = 1;
+}
+
+
+
 // Products service
 service ProductsService {
   rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
   rpc GetRecentProducts(GetRecentProductsRequest) returns (GetProductsResponse);
+  rpc GetByIdList(GetByIdListRequest) returns (GetByIdListResponse);
 }
