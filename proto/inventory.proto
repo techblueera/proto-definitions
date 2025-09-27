@@ -60,6 +60,10 @@ message CreateInventoryRequest {
   Inventory inventory = 1;
 }
 
+message SearchInventoryWithProductIdListRequest{
+  repeated string id = 1;
+}
+
 // ================== Responses ==================
 message InventoryResponse {
   Inventory inventory = 1;
@@ -69,9 +73,14 @@ message InventoryListResponse {
   repeated Inventory inventories = 1;
 }
 
+message SearchInventoryWithProductIdListResponse {
+  repeated Inventory inventories = 1;
+}
+
 // ================== Service ==================
 service InventoryService {
   rpc GetInventoryById(GetInventoryByIdRequest) returns (InventoryResponse);
   rpc GetInventoryByBusiness(GetInventoryByBusinessRequest) returns (InventoryListResponse);
   rpc CreateInventory(CreateInventoryRequest) returns (InventoryResponse);
+  rpc SearchInventoryWithProductIdList(SearchInventoryWithProductIdListRequest) returns (SearchInventoryWithProductIdListResponse)
 }
