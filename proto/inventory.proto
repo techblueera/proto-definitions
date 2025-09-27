@@ -82,5 +82,5 @@ service InventoryService {
   rpc GetInventoryById(GetInventoryByIdRequest) returns (InventoryResponse);
   rpc GetInventoryByBusiness(GetInventoryByBusinessRequest) returns (InventoryListResponse);
   rpc CreateInventory(CreateInventoryRequest) returns (InventoryResponse);
-  rpc SearchInventoryWithProductIdList(SearchInventoryWithProductIdListRequest) returns (SearchInventoryWithProductIdListResponse)
+  rpc SearchInventoryWithProductIdList(SearchInventoryWithProductIdListRequest) returns (SearchInventoryWithProductIdListResponse);
 }
