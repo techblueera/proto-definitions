@@ -220,18 +220,18 @@ message Product {
   bool is_published = 14;
   double mrp_per_unit = 15;
 
-  repeated string guideLine = 16;                  // 🔹 Added
+  repeated string guideLine = 16;
   repeated AdditionalDetail add_more_details = 17;
   repeated ProductFeature add_product_features = 18;
   LinkOrReferral link_or_referral_website = 19;
   string created_by_business = 20;
   string updated_by_business = 21;
-  bool addedByAdmin = 22;                          // 🔹 Added
+  bool addedByAdmin = 22;
 
-  repeated Variant variants = 23;                  // 🔹 Added
+  repeated Variant variants = 23;
 
-  // Approval/Rejection fields 🔹
-  string approval_status = 24;                     // pending / approved / rejected
+  // Approval/Rejection fields
+  string approval_status = 24;
   string approved_by = 25;
   google.protobuf.Timestamp approved_at = 26;
   string approval_reason = 27;
@@ -242,6 +242,9 @@ message Product {
   google.protobuf.Timestamp created_at = 31;
   google.protobuf.Timestamp updated_at = 32;
   google.protobuf.Timestamp deleted_at = 33;
+
+  // 🔹 Expiry duration added from schema
+  string expiry_duration = 34;  
 }
 
 // Request to get products
