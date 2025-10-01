@@ -4,7 +4,6 @@
 
 // import "google/protobuf/timestamp.proto";
 
-
 // // Products service
 // service ProductsService {
 //   rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
@@ -36,6 +35,8 @@
 //   int32 date = 1;
 //   int32 month = 2;
 //   int32 year = 3;
+//   int32 week = 4;           // 🔹 Added from schema
+//   bool lifetime = 5;        // 🔹 Added from schema
 // }
 
 // // Additional details
@@ -54,6 +55,30 @@
 //   string title = 1;
 // }
 
+// // Variant message 🔹 New from schema
+// message Variant {
+//   map<string, string> attributes = 1;               // attributes map
+//   bool stock = 2;                                   // 🔹
+//   double sellingPrice = 3;                          // 🔹
+//   repeated string media_related_to_varient = 4;     // 🔹
+//   double mrp = 5;                                   // 🔹
+//   bool varientIsActive = 6;                         // 🔹
+//   google.protobuf.Timestamp createdAt = 7;          // 🔹
+//   google.protobuf.Timestamp updatedAt = 8;          // 🔹
+// }
+
+
+// message Category {
+//   string id = 1;
+//   string name = 2;
+//   string parent_id = 3;         // Optional: parent category
+//   repeated string path = 4;     // Path of category ids
+//   string image_url = 5;
+//   bool active = 6;
+// }
+
+
+
 // // Product message
 // message Product {
 //   string id = 1;
@@ -65,30 +90,44 @@
 //   repeated ProductOption options = 7;
 //   repeated string media = 8;
 //   repeated string video_url = 9;
-//   string category_id = 10;
+//   Category category = 10;
 //   string product_warranty = 11;
 //   bool is_returnable = 12;
 //   int32 returning_day = 13;
 //   bool is_published = 14;
 //   double mrp_per_unit = 15;
-//   string sku = 16;
-//   string hsn = 17;
-//   ExpiryTime expiry_time = 18;
-//   repeated string tags = 19;
-//   repeated AdditionalDetail add_more_details = 20;
-//   repeated ProductFeature add_product_features = 21;
-//   LinkOrReferral link_or_referral_website = 22;
-//   string created_by_business = 23;
-//   string updated_by_business = 24;
-//   google.protobuf.Timestamp created_at = 25;
-//   google.protobuf.Timestamp updated_at = 26;
-//   google.protobuf.Timestamp deleted_at = 27;
+
+//   repeated string guideLine = 16;
+//   repeated AdditionalDetail add_more_details = 17;
+//   repeated ProductFeature add_product_features = 18;
+//   LinkOrReferral link_or_referral_website = 19;
+//   string created_by_business = 20;
+//   string updated_by_business = 21;
+//   bool addedByAdmin = 22;
+
+//   repeated Variant variants = 23;
+
+//   // Approval/Rejection fields
+//   string approval_status = 24;
+//   string approved_by = 25;
+//   google.protobuf.Timestamp approved_at = 26;
+//   string approval_reason = 27;
+//   string rejected_by = 28;
+//   google.protobuf.Timestamp rejected_at = 29;
+//   string rejection_reason = 30;
+
+//   google.protobuf.Timestamp created_at = 31;
+//   google.protobuf.Timestamp updated_at = 32;
+//   google.protobuf.Timestamp deleted_at = 33;
+
+//   // 🔹 Expiry duration added from schema
+//   string expiry_duration = 34;  
 // }
 
 // // Request to get products
 // message GetProductsRequest {
 //   repeated string product_ids = 1;
-//   string cursor = 2; // Timestamp cursor for pagination
+//   string cursor = 2;
 //   int32 limit = 3;
 //   string created_by_business = 4;
 //   ProductType type = 5;
@@ -111,21 +150,24 @@
 //   bool is_published = 4;
 // }
 
-
 // // Request to get products by ID list
 // message GetByIdListRequest {
 //   repeated string product_id_list = 1;
 // }
+
 // // Response for ID list request
 // message GetByIdListResponse {
 //   repeated Product products = 1;
 // }
+
+
 
 syntax = "proto3";
 
 package products;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto"; // ✅ For nested attributes
 
 // Products service
 service ProductsService {
@@ -158,8 +200,8 @@ message ExpiryTime {
   int32 date = 1;
   int32 month = 2;
   int32 year = 3;
-  int32 week = 4;           // 🔹 Added from schema
-  bool lifetime = 5;        // 🔹 Added from schema
+  int32 week = 4;           
+  bool lifetime = 5;        
 }
 
 // Additional details
@@ -178,29 +220,27 @@ message LinkOrReferral {
   string title = 1;
 }
 
-// Variant message 🔹 New from schema
+// Variant message
 message Variant {
-  map<string, string> attributes = 1;               // attributes map
-  bool stock = 2;                                   // 🔹
-  double sellingPrice = 3;                          // 🔹
-  repeated string media_related_to_varient = 4;     // 🔹
-  double mrp = 5;                                   // 🔹
-  bool varientIsActive = 6;                         // 🔹
-  google.protobuf.Timestamp createdAt = 7;          // 🔹
-  google.protobuf.Timestamp updatedAt = 8;          // 🔹
+  google.protobuf.Struct attributes = 1;           // ✅ Nested attributes map
+  bool stock = 2;                                  
+  double sellingPrice = 3;                         
+  repeated string media_related_to_varient = 4;    
+  double mrp = 5;                                  
+  bool varientIsActive = 6;                        
+  google.protobuf.Timestamp createdAt = 7;         
+  google.protobuf.Timestamp updatedAt = 8;         
 }
 
-
+// Category
 message Category {
   string id = 1;
   string name = 2;
-  string parent_id = 3;         // Optional: parent category
-  repeated string path = 4;     // Path of category ids
+  string parent_id = 3;
+  repeated string path = 4;
   string image_url = 5;
   bool active = 6;
 }
-
-
 
 // Product message
 message Product {
@@ -219,7 +259,6 @@ message Product {
   int32 returning_day = 13;
   bool is_published = 14;
   double mrp_per_unit = 15;
-
   repeated string guideLine = 16;
   repeated AdditionalDetail add_more_details = 17;
   repeated ProductFeature add_product_features = 18;
@@ -227,7 +266,6 @@ message Product {
   string created_by_business = 20;
   string updated_by_business = 21;
   bool addedByAdmin = 22;
-
   repeated Variant variants = 23;
 
   // Approval/Rejection fields
@@ -243,11 +281,11 @@ message Product {
   google.protobuf.Timestamp updated_at = 32;
   google.protobuf.Timestamp deleted_at = 33;
 
-  // 🔹 Expiry duration added from schema
+  // Expiry duration
   string expiry_duration = 34;  
 }
 
-// Request to get products
+// Requests & Responses
 message GetProductsRequest {
   repeated string product_ids = 1;
   string cursor = 2;
@@ -257,7 +295,6 @@ message GetProductsRequest {
   bool is_published = 6;
 }
 
-// Response containing products
 message GetProductsResponse {
   repeated Product products = 1;
   int32 total = 2;
@@ -265,7 +302,6 @@ message GetProductsResponse {
   bool has_more = 4;
 }
 
-// Request to get recent products
 message GetRecentProductsRequest {
   string cursor = 1;
   int32 limit = 2;
@@ -273,12 +309,10 @@ message GetRecentProductsRequest {
   bool is_published = 4;
 }
 
-// Request to get products by ID list
 message GetByIdListRequest {
   repeated string product_id_list = 1;
 }
 
-// Response for ID list request
 message GetByIdListResponse {
   repeated Product products = 1;
 }
