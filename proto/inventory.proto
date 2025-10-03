@@ -2,111 +2,19 @@
 
 // package inventory;
 
-// // ================== Variant ==================
-// message Variant {
-//   map<string, string> attributes = 1; // Example: { "color": "red", "size": "M" }
-//   string sku = 2;
-//   string hsn = 3;
-//   string batchNumber = 4;
-
-//   // Dates
-//   message DateInfo {
-//     int32 date = 1;
-//     int32 month = 2;
-//     int32 year = 3;
-//   }
-//   DateInfo expiryDate = 5;
-//   DateInfo manufacteringDate = 6;
-
-//   bool stock = 7;
-//   double costPrice = 8;
-//   double sellingPrice = 9;
-//   repeated string media_related_to_varient = 10;
-//   double mrp = 11;
-//   bool varientIsActive = 12;
-//   string createdAt = 13; // ISO date string
-//   string updatedAt = 14; // ISO date string
-// }
-
-// // ================== Inventory ==================
-// message Inventory {
-//   string id = 1; // MongoDB ObjectId
-//   string product_id = 2;
-//   string business_id = 3;
-//   repeated Variant variants = 4;
-
-//   message BusinessLocation {
-//     double latitude = 1;
-//     double longitude = 2;
-//   }
-//   BusinessLocation business_location = 5;
-
-//   bool published = 6;
-//   bool isActive = 7;
-//   string createdAt = 8; // ISO date string
-//   string updatedAt = 9; // ISO date string
-// }
-
-// // ================== Requests ==================
-// message GetInventoryByIdRequest {
-//   string id = 1;
-// }
-
-// message GetInventoryByBusinessRequest {
-//   string business_id = 1;
-// }
-
-// message CreateInventoryRequest {
-//   Inventory inventory = 1;
-// }
-
-// message SearchInventoryWithProductIdListRequest{
-//   repeated string list = 1;
-// }
-
-// message SearchInventoryWithProductIdRequest{
-//  string id = 1;
-// }
-
-// // ================== Responses ==================
-// message InventoryResponse {
-//   Inventory inventory = 1;
-// }
-
-// message InventoryListResponse {
-//   repeated Inventory inventories = 1;
-// }
-
-// message SearchInventoryWithProductIdListResponse {
-//   repeated Inventory inventories = 1;
-// }
-
-// message SearchInventoryWithProductIdReturn{
-//  repeated Inventory inventories = 1;
-// }
-
-// // ================== Service ==================
-// service InventoryService {
-//   rpc GetInventoryById(GetInventoryByIdRequest) returns (InventoryResponse);
-//   rpc GetInventoryByBusiness(GetInventoryByBusinessRequest) returns (InventoryListResponse);
-//   rpc CreateInventory(CreateInventoryRequest) returns (InventoryResponse);
-//   rpc SearchInventoryWithProductIdList(SearchInventoryWithProductIdListRequest) returns (SearchInventoryWithProductIdListResponse);
-//   rpc SearchInventoryWithProductId(SearchInventoryWithProductIdRequest) returns (SearchInventoryWithProductIdReturn); 
-// }
-
-
-// syntax = "proto3";
-
-// package inventory;
-
 // import "google/protobuf/struct.proto";
 
 // // ================== Variant ==================
 // message Variant {
-//   google.protobuf.Struct attributes = 1; // Nested objects supported
-//   string sku = 2;
-//   string hsn = 3;
-//   string batchNumber = 4;
+//   // Option A: flat attributes (simple key-value)
+//   map<string, string> attributes_map = 1;
+
+//   // Option B: nested attributes (complex JSON)
+//   google.protobuf.Struct attributes_struct = 2;
+
+//   string sku = 3;
+//   string hsn = 4;
+//   string batchNumber = 5;
 
 //   // Dates
 //   message DateInfo {
@@ -114,17 +22,17 @@
 //     int32 month = 2;
 //     int32 year = 3;
 //   }
-//   DateInfo expiryDate = 5;
-//   DateInfo manufacteringDate = 6;
+//   DateInfo expiryDate = 6;
+//   DateInfo manufacteringDate = 7;
 
-//   bool stock = 7;
-//   double costPrice = 8;
-//   double sellingPrice = 9;
-//   repeated string media_related_to_varient = 10;
-//   double mrp = 11;
-//   bool varientIsActive = 12;
-//   string createdAt = 13; // ISO date string
-//   string updatedAt = 14; // ISO date string
+//   bool stock = 8;
+//   double costPrice = 9;
+//   double sellingPrice = 10;
+//   repeated string media_related_to_varient = 11;
+//   double mrp = 12;
+//   bool varientIsActive = 13;
+//   string createdAt = 14; // ISO date string
+//   string updatedAt = 15; // ISO date string
 // }
 
 // // ================== Inventory ==================
@@ -194,6 +102,7 @@
 // }
 
 
+
 syntax = "proto3";
 
 package inventory;
@@ -202,6 +111,8 @@ import "google/protobuf/struct.proto";
 
 // ================== Variant ==================
 message Variant {
+  string id = 16; // Variant MongoDB ObjectId
+
   // Option A: flat attributes (simple key-value)
   map<string, string> attributes_map = 1;
 
